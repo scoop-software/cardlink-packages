@@ -34,7 +34,9 @@ re‑released per Xcode major version).
 import ScoopCardlink
 ```
 
-API documentation is available inline in Xcode as **Quick Help** (⌥‑click any symbol).
+API documentation is available inline in Xcode as **Quick Help** (⌥‑click any symbol). The
+full written API reference (every flow, with usage snippets) is at
+**[cardlink-sdk-demos/docs/API.md](https://github.com/scoop-software/cardlink-sdk-demos/blob/main/docs/API.md)**.
 For a complete, runnable integration (CardLink flow, PoPP check‑in, eRezept upload/delete),
 see the demo app: **[scoop-software/cardlink-sdk-demos](https://github.com/scoop-software/cardlink-sdk-demos)** (`ios/`).
 
