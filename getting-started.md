@@ -35,12 +35,18 @@ compiled binaries are public — the SDK **source stays private** in `cardlink-s
 
 ## 2. Integrating the SDK
 
-Current package versions (from `version.properties`):
+Current package versions:
 
-| Target | Coordinate | Version |
-| ------ | ---------- | ------- |
-| Android (Maven) | `de.scoopsoftware.cardlink:shared-android` | 2.2.0 |
-| iOS (SPM) | `ScoopCardlink` | 2.2.0 |
+| SDK | iOS (SPM) product | Android (Maven) coordinate | Version |
+| --- | --- | --- | --- |
+| Cardlink | `ScoopCardlink` | `de.scoopsoftware.cardlink:shared-android` | 2.2.0 |
+| NFC | `ScoopNfc`, `ScoopNfcUI` | `de.scoopsoftware.nfc:shared-android` | 2.0.1 |
+| PoPP | `ScoopPopp` | `de.scoopsoftware.popp:shared-android` | 0.18.0 |
+
+All three ship from the same `cardlink-packages` repo (SPM products + one Maven repo).
+`ScoopCardlink` bundles NFC + PoPP, so a CardLink integration usually needs only it; the
+snippets below use Cardlink. For NFC- or PoPP-only apps, swap in the matching product /
+coordinate above.
 
 ### 2a. Native Android (Gradle)
 
