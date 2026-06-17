@@ -48,6 +48,16 @@ All three ship from the same `cardlink-packages` repo (SPM products + one Maven 
 snippets below use Cardlink. For NFC- or PoPP-only apps, swap in the matching product /
 coordinate above.
 
+**The high-level flows** — full API and Kotlin/Swift snippets are in the
+[API Reference](https://github.com/scoop-software/cardlink-sdk-demos/blob/main/docs/API.md):
+
+| Flow | Entry point | What it does |
+| ---- | ----------- | ------------ |
+| CardLink | [`CardlinkFlow`](https://github.com/scoop-software/cardlink-sdk-demos/blob/main/docs/API.md#cardlink-flow) | OAuth → SMS → NFC (eGK) → prescription retrieval |
+| PoPP check-in | [`PoppFlow`](https://github.com/scoop-software/cardlink-sdk-demos/blob/main/docs/API.md#popp-check-in-proof-of-patient-presence) | LEI selection → consent → eGK / GesundheitsID auth → PoPP token — see the [flow diagram](https://github.com/scoop-software/cardlink-sdk-demos/blob/main/docs/popp-flow.md) |
+| eRezept | [upload / delete](https://github.com/scoop-software/cardlink-sdk-demos/blob/main/docs/API.md#erezept-upload--delete) | upload a test prescription, then delete it |
+| Card reading | [`CardlinkNfcSession`](https://github.com/scoop-software/cardlink-sdk-demos/blob/main/docs/API.md#card-reading--nfc-primitives) | read eGK files directly (no server flow) |
+
 ### 2a. Native Android (Gradle)
 
 Add the public Maven repository and the dependency — **no credentials needed**:
@@ -147,8 +157,9 @@ Maintainers building the XCFramework from this repo (e.g. before a release):
 
 ## 4. Where to go next
 
-- **[API Reference](https://github.com/scoop-software/cardlink-sdk-demos/blob/main/docs/API.md)** — public consumer API for every flow (CardLink, PoPP, eRezept, card reading, metrics) with usage snippets. This is the canonical reference for Android consumers (iOS also has inline Quick Help in Xcode).
-- [README](../README.md) — feature overview and SDK usage snippets
-- [docs/configuration.md](configuration.md) — configuration reference
-- [docs/sdk-state-pattern.md](sdk-state-pattern.md) — CardlinkFlow state machine
-- [docs/DEMO-APP-ARCHITECTURE.md](DEMO-APP-ARCHITECTURE.md) — demo app architecture
+All links are public — no access to the private SDK source is needed:
+
+- **[API Reference](https://github.com/scoop-software/cardlink-sdk-demos/blob/main/docs/API.md)** — canonical consumer API for every flow (CardLink, PoPP, eRezept, card reading, metrics), with Kotlin/Swift snippets. iOS also has inline Quick Help in Xcode.
+- **[PoPP flow diagram](https://github.com/scoop-software/cardlink-sdk-demos/blob/main/docs/popp-flow.md)** — the PoPP check-in state machine (states, transitions, design notes).
+- **[Demo apps](https://github.com/scoop-software/cardlink-sdk-demos)** — runnable native Android + iOS integrations of every flow.
+- **[Package README](https://github.com/scoop-software/cardlink-packages#readme)** — install reference + required Xcode 26 build settings.
