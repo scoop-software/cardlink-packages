@@ -4,7 +4,7 @@ This guide walks you through **integrating the Cardlink SDK into your own app** 
 **building & running the bundled demo**. It covers both native distribution targets:
 Android and iOS.
 
-For a feature overview and API examples, see the top-level [README](../README.md).
+For a feature overview and install reference, see the [package README](https://github.com/scoop-software/cardlink-packages#readme).
 
 ---
 
