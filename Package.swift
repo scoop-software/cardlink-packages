@@ -15,23 +15,23 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "ScoopCardlink",
-            url: "https://github.com/scoop-software/cardlink-packages/releases/download/v2.3.0/ScoopCardlink.xcframework.zip",
-            checksum: "c9872db746ef827644186aedd8bb783ffaf1878be3b11552b6a75e06a317e161"
+            url: "https://github.com/scoop-software/cardlink-packages/releases/download/v2.6.0/ScoopCardlink.xcframework.zip",
+            checksum: "8635de0515d55e680adc1ed99e766d7f758ebd69e0e27c7dd6a9026c3c03da46"
         ),
         .binaryTarget(
             name: "ScoopNfc",
-            url: "https://github.com/scoop-software/cardlink-packages/releases/download/v2.3.0/ScoopNfc.xcframework.zip",
-            checksum: "74672f823949efc347ed0cc4f1bc56e8c8e8305c3a76721ee11fa17756103432"
+            url: "https://github.com/scoop-software/cardlink-packages/releases/download/v2.6.0/ScoopNfc.xcframework.zip",
+            checksum: "c992ad906160e6bd9e963e6a8f4536f3a92a3d751fb206063a802fee3bcd181e"
         ),
         .binaryTarget(
             name: "ScoopNfcUI",
-            url: "https://github.com/scoop-software/cardlink-packages/releases/download/v2.3.0/ScoopNfcUI.xcframework.zip",
-            checksum: "a6877bf2ad97b3345dff60a9917f31c7c1539a70d6c66f35857b87025386eeca"
+            url: "https://github.com/scoop-software/cardlink-packages/releases/download/v2.6.0/ScoopNfcUI.xcframework.zip",
+            checksum: "07775dacce9bd4d85766919bbf6750f13a3fb82615bcdf42d8bd71f794693826"
         ),
         .binaryTarget(
             name: "ScoopPopp",
-            url: "https://github.com/scoop-software/cardlink-packages/releases/download/v2.3.0/ScoopPopp.xcframework.zip",
-            checksum: "8532919c565d607364faf59d7693c8acd5cf5d2bd33d2dd914ce0c1c083dc1e0"
+            url: "https://github.com/scoop-software/cardlink-packages/releases/download/v2.6.0/ScoopPopp.xcframework.zip",
+            checksum: "6e2078855d155c3c327174ca6e1e111de1ae33f2147c031c96c1be6e346fc87d"
         ),
     ]
 )

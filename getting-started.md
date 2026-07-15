@@ -100,18 +100,13 @@ import ScoopCardlink
 ```
 
 The package ships as a binary **`ScoopCardlink.xcframework`** (downloaded from the
-GitHub Release ZIP). **Minimum deployment target: iOS 14.0.** The simulator slice is
-Apple Silicon only (no x86_64).
+GitHub Release ZIP). **Minimum deployment target: iOS 15.0.** The universal simulator
+slice supports Apple Silicon (`arm64`) and Intel (`x86_64`) Macs.
 
-> **⚠️ Xcode 26 — required build setting.** Set **`SWIFT_ENABLE_EXPLICIT_MODULES = NO`**
-> on the target that imports `ScoopCardlink` (Build Settings → search *“Explicitly
-> Built Modules”* → **No**, or add `SWIFT_ENABLE_EXPLICIT_MODULES = NO` to your
-> `.xcconfig`). The framework ships a binary `.swiftmodule`; Xcode 26's explicit-module
-> build would otherwise rebuild the framework's interface and silently drop the
-> SKIE-generated Swift types — e.g. `cannot find type 'ErezeptType' in scope`. On Apple
-> Silicon also set **`EXCLUDED_ARCHS[sdk=iphonesimulator*] = x86_64`** (the framework
-> has no x86_64 simulator slice). Because the framework carries no library evolution,
-> the binary is tied to its build's Swift compiler — rebuild/republish per Xcode major.
+> The XCFramework ships textual `.swiftinterface` files with Library Evolution;
+> consumers do **not** need to disable explicit modules and are not tied to the exact
+> Swift compiler patch version used for the release. No SDK-specific architecture
+> exclusion is required for simulator builds.
 >
 > **NFC features** require a **physical device** with NFC (iPhone 7 or later) and the
 > appropriate NFC entitlements + `Info.plist` ISO 7816 / reader-session keys in your
