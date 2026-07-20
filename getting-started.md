@@ -39,14 +39,14 @@ Current package versions:
 
 | SDK | iOS (SPM) product | Android (Maven) coordinate | Version |
 | --- | --- | --- | --- |
-| Cardlink | `ScoopCardlink` | `de.scoopsoftware.cardlink:shared-android` | 2.2.0 |
-| NFC | `ScoopNfc`, `ScoopNfcUI` | `de.scoopsoftware.nfc:shared-android` | 2.0.1 |
-| PoPP | `ScoopPopp` | `de.scoopsoftware.popp:shared-android` | 0.18.0 |
+| Cardlink | `ScoopCardlink` | `de.scoopsoftware.cardlink:cardlink-android` | 4.0.0 |
+| NFC | `ScoopNfc`, `ScoopNfcUI` | `de.scoopsoftware.nfc:nfc-android` | 3.0.0 |
+| PoPP Module | `ScoopPopp` | `de.scoopsoftware.popp:popp-module-android` | 0.21.0 |
 
-All three ship from the same `cardlink-packages` repo (SPM products + one Maven repo).
-`ScoopCardlink` bundles NFC + PoPP, so a CardLink integration usually needs only it; the
-snippets below use Cardlink. For NFC- or PoPP-only apps, swap in the matching product /
-coordinate above.
+The iOS products ship from this `cardlink-packages` repo. `ScoopCardlink` statically
+bundles the NFC core (PoPP is a separate product since the PoPP split); pair it with
+`ScoopNfcUI` for the SDK-owned CAN scanner and card UI. The PoPP convenience SDK
+(`ScoopPoppSDK`) is distributed via the private Gitea registry only.
 
 **The high-level flows** — full API and Kotlin/Swift snippets are in the
 [API Reference](https://github.com/scoop-software/cardlink-sdk-demos/blob/main/docs/API.md):
@@ -60,18 +60,27 @@ coordinate above.
 
 ### 2a. Native Android (Gradle)
 
-Add the public Maven repository and the dependency — **no credentials needed**:
+Current releases resolve from the private **Gitea Maven registry** (credentials
+required; ask your SCOOP contact):
 
 ```kotlin
-// settings.gradle.kts (dependencyResolutionManagement) or module build.gradle.kts
+// settings.gradle.kts (dependencyResolutionManagement)
 repositories {
-    maven { url = uri("https://scoop-software.github.io/cardlink-packages/maven") }
+    maven {
+        url = uri("https://ti-gitea.scoop-gmbh.de/api/packages/ti-cardlink/maven")
+        credentials { username = giteaUser; password = giteaToken }
+        content { includeGroup("de.scoopsoftware.cardlink") }
+    }
+    // analogous blocks: ti-common → de.scoopsoftware.nfc, ti-popp → de.scoopsoftware.popp(.sdk)
 }
 
 dependencies {
-    implementation("de.scoopsoftware.cardlink:shared-android:2.2.0")
+    implementation("de.scoopsoftware.cardlink:cardlink-android:4.0.0") // nfc-android resolves transitively
 }
 ```
+
+> The legacy credential-free GitHub-Pages Maven tree serves only the retired
+> `shared-android` line (≤ 2.2.0) and is not updated for 3.x/4.x.
 
 **Requirements:** `minSdk 26`, Java 17. Only the **release** variant is published.
 
@@ -86,7 +95,7 @@ In Xcode: **File → Add Package Dependencies…** and enter
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/scoop-software/cardlink-packages.git", from: "2.2.0")
+    .package(url: "https://github.com/scoop-software/cardlink-packages.git", exact: "4.0.0")
 ]
 ```
 

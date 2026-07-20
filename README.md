@@ -6,15 +6,19 @@ and **Android (Maven)**:
 
 | SDK | iOS SPM product(s) | Android Maven coordinate | Version |
 | --- | --- | --- | --- |
-| **Cardlink** | `ScoopCardlink` | `de.scoopsoftware.cardlink:shared-android` | 2.2.0 |
-| **NFC** | `ScoopNfc`, `ScoopNfcUI` | `de.scoopsoftware.nfc:shared-android` | 2.0.1 |
-| **PoPP** | `ScoopPopp` | `de.scoopsoftware.popp:shared-android` | 0.18.0 |
+| **Cardlink** | `ScoopCardlink` | `de.scoopsoftware.cardlink:cardlink-android` | 4.0.0 |
+| **NFC** | `ScoopNfc`, `ScoopNfcUI` | `de.scoopsoftware.nfc:nfc-android` | 3.0.0 |
+| **PoPP Module** | `ScoopPopp` | `de.scoopsoftware.popp:popp-module-android` | 0.21.0 |
+
+> The PoPP convenience SDK (`ScoopPoppSDK`, `de.scoopsoftware.popp.sdk:popp-sdk-android` 2.0.0)
+> is distributed via the private Gitea registry only, not through this public repo.
 
 This repo hosts only the manifests and compiled binaries; the SDK **sources stay private**
-in their respective repos. `ScoopCardlink` statically bundles NFC + PoPP, so most CardLink
-integrations only need `ScoopCardlink`.
+in their respective repos. `ScoopCardlink` statically bundles the NFC core (PoPP is a
+separate product since the PoPP split), so a CardLink integration needs `ScoopCardlink`
+plus `ScoopNfcUI` for the SDK-owned CAN scanner and card UI.
 
-> **iOS 14+ / Xcode 26+** · Android `minSdk 26` / JDK 17
+> **iOS 15+ / Xcode 26+** · Android `minSdk 26` / JDK 17
 >
 > 📖 **[Vendor getting-started guide →](getting-started.md)**
 
@@ -23,45 +27,34 @@ integrations only need `ScoopCardlink`.
 ### iOS — Swift Package Manager
 
 ```swift
-.package(url: "https://github.com/scoop-software/cardlink-packages.git", from: "2.2.0")
+.package(url: "https://github.com/scoop-software/cardlink-packages.git", exact: "4.0.0")
 ```
 
 …or in Xcode: **File → Add Package Dependencies…** and paste the URL above. Then add the
 products you need to your target and import them:
 
 ```swift
-import ScoopCardlink   // CardLink flow (bundles NFC + PoPP)
+import ScoopCardlink   // CardLink flow (bundles the NFC core)
 import ScoopNfc        // NFC core (eGK / PACE / Secure Messaging)
-import ScoopNfcUI      // optional SwiftUI components for NFC
-import ScoopPopp        // PoPP module
+import ScoopNfcUI      // SwiftUI components: CAN scanner, CAN input, eGK card view
+import ScoopPopp       // reviewed PoPP module
 ```
 
-### Android — Gradle (no token required)
+### Android — Gradle
 
-```kotlin
-repositories {
-    maven { url = uri("https://scoop-software.github.io/cardlink-packages/maven") }
-}
-dependencies {
-    implementation("de.scoopsoftware.cardlink:shared-android:2.2.0") // pulls nfc + popp transitively
-    // or depend on the individual SDKs directly:
-    // implementation("de.scoopsoftware.nfc:shared-android:2.0.1")
-    // implementation("de.scoopsoftware.popp:shared-android:0.18.0")
-}
-```
+Current Android artifacts (`cardlink-android` 4.0.0, `nfc-android` 3.0.0,
+`popp-module-android` 0.21.0) are distributed via the private **Gitea Maven registry**
+(credentials required) — see the vendor guide for the repository blocks. The legacy
+credential-free GitHub-Pages Maven tree still serves only the retired
+`shared-android` line (≤ 2.2.0) and is not updated for 3.x/4.x; whether the public
+Android channel continues is a pending distribution decision.
 
-## Required build settings (Xcode 26)
+## Build settings (Xcode 26)
 
-The frameworks ship a binary `.swiftmodule` (no library evolution). On the target that
-imports any Scoop product, set:
-
-| Setting | Value | Why |
-| ------- | ----- | --- |
-| `SWIFT_ENABLE_EXPLICIT_MODULES` | `NO` | Xcode 26's explicit-module build otherwise rebuilds the framework interface and drops the SDK's Swift types (`cannot find type 'ErezeptType'…`). |
-| `EXCLUDED_ARCHS[sdk=iphonesimulator*]` | `x86_64` | The simulator slices are arm64 only (Apple Silicon). |
-
-The binaries are tied to their build's Swift compiler — **use Xcode 26.x** (rebuilt and
-re-released per Xcode major version).
+Since the 3.x/4.x releases the XCFrameworks ship **textual `.swiftinterface` files with
+Library Evolution** and a universal simulator slice (`arm64` + `x86_64`). No special
+build settings are required; consumers are not tied to the exact Swift compiler patch
+version. Minimum toolchain: **Xcode 26 / Swift 6.2**.
 
 ## How it's distributed
 
@@ -83,4 +76,4 @@ No GitHub token or credentials are required for either platform.
 
 ## License
 
-Proprietary. © Scoop Software GmbH.
+Proprietary. © SCOOP Software GmbH.
